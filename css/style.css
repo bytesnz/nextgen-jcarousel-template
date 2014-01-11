@@ -56,6 +56,7 @@
     text-align: center;
     background: #4E443C;
     color: #fff;
+    opacity: 0.3;
     text-decoration: none;
     text-shadow: 0 0 1px #000;
     font: 24px/27px Arial, sans-serif;
@@ -69,7 +70,7 @@
 
 .jcarousel-control-prev:hover,
 .jcarousel-control-next:hover {
-	background: #A48F7E;
+  opacity: 0.9;
 	text-decoration: none;
 }
 

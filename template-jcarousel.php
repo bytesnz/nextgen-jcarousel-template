@@ -21,10 +21,14 @@ Follow variables are useable :
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 if (!defined ('ABSPATH')) die ('No direct access allowed');
 ?><?php if (!empty ($gallery)) : ?>
-<div class="jcarousel-wrapper">
+<div id="<?php echo $gallery->anchor ?>-wrapper" class="jcarousel-wrapper">
 	<div id="<?php echo $gallery->anchor ?>" class="jcarousel"><ul>
 		<?php foreach ($images as $image) : ?>	
-		 <li><img src="<?php echo $image->imageURL ?>" alt="<?php echo $image->alttext ?>" title="<?php echo $image->alttext ?>" /></li>
+			<li>
+				<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->alttext ?>" data-src="<?php echo $image->imageURL ?>" data-thumbnail="<?php echo $image->thumbnailURL ?>" data-image-id="<?php echo $image->id ?>" data-title="<?php echo $image->alttext ?>" data-description="" class="ngg-fancybox" rel="<?php echo $displayed_gallery_id ?>">
+					<img src="<?php echo $image->thumbnailURL ?>" alt="<?php echo $image->alttext ?>" title="<?php echo $image->alttext ?>" />
+				</a>
+			</li>
 		<?php endforeach; ?>
 	</ul></div>
 	<a id="<?php echo $gallery->anchor ?>-prev" class="jcarousel-control-prev">&lsaquo;</a>
@@ -43,8 +47,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			var width = jcarousel.innerWidth();
 			var targetWidth = 150;
 
-			var calc = int(width / targetWidth);
-			console.log('width:' + width + ', target:' + targetWidth + ', calc:' + calc);
+			var calc = ~~(width / targetWidth);
 			width = width / calc;
 			
 			jcarousel.jcarousel('items').css('width', width + 'px');
@@ -53,18 +56,35 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			wrap: 'circular',
 			animation: {
 				duration: 2000,
-				easing: 'ease'
+				easing: 'linear'
 			}
 		})
 		.jcarouselAutoscroll({
-			interval: 0,
+			interval: 0000,
 			target: '+=1',
 			autostart: true
+		});
+
+		$('#<?php echo $gallery->anchor ?>-wrapper')
+		.mouseenter(function() {
+			jcarousel
+				.jcarousel('options', {
+					animation: {
+						duration: 200,
+						easing: 'linear'
+					}
+				})
+				.jcarouselAutoscroll('stop');
 		})
-		.hover(function() {
-			jcarousel.jcarouselAutoscroll('stop');
-		}, function() {
-			jcarousel.jcarouselAutoscroll('start');
+		.mouseleave(function() {
+			jcarousel
+				.jcarousel({
+					animation: {
+						duration: 2000,
+						easing: 'linear'
+					}
+				})
+				.jcarouselAutoscroll('start');
 		});
 
 
