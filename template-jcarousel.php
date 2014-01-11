@@ -45,7 +45,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 		    .on('jcarousel:reload jcarousel:create', function () {
 			<?php /// Caculate optimum width ?>
 			var width = jcarousel.innerWidth();
-			var targetWidth = 150;
+			var targetWidth = 120;
 
 			var calc = ~~(width / targetWidth);
 			width = width / calc;
