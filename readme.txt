@@ -39,6 +39,10 @@ Hopefull soon...
 
 == Changelog ==
 
+= 1.0 =
+* Got initial version working with image popup using fancybox
+* All settings are currently hardcoded. Looking into best way to fix this
+
 = 0.1 =
 * Getting an initial version working.
 
