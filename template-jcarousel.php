@@ -1,12 +1,5 @@
 <?php 
 /**
-  File Detail: NextGen jCarousel Template
-  Plugin Name: NextGEN jCarousel Template
-  Plugin URI: http://github.com/weldstudio/nextgen-jcarousel-template
-  Author: The Weld Studio
-  Author URI: http://www.theweldstudio.com
-  Version: 0.1
-
 Follow variables are useable :
 
 	$gallery     : Contain all about the gallery

@@ -29,6 +29,12 @@ e.g.
 3. Use template="jcarousel" in your ngg shortcodes to use it
 4. *Temporary* Modify the style.css and template-jcarousel.php files to suit your needs if the default is not your style
 
+== Todos ==
+
+* Add prev/next to Fancybox popup
+* Freeze autoscroll when viewing Fancybox popup
+* Make settings (width, timings etc) more easily adjustable
+
 == Frequently Asked Questions ==
 
 = When will x be ready =
