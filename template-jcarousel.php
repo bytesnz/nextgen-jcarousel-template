@@ -15,17 +15,19 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 if (!defined ('ABSPATH')) die ('No direct access allowed');
 ?><?php if (!empty ($gallery)) : ?>
 <div id="<?php echo $gallery->anchor ?>-wrapper" class="jcarousel-wrapper">
-	<div id="<?php echo $gallery->anchor ?>" class="jcarousel"><ul>
+	<div id="<?php echo $gallery->anchor ?>" class="jcarousel">
+		<ul>
 		<?php foreach ($images as $image) : ?>	
 			<li>
-				<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->alttext ?>" data-src="<?php echo $image->imageURL ?>" data-thumbnail="<?php echo $image->thumbnailURL ?>" data-image-id="<?php echo $image->id ?>" data-title="<?php echo $image->alttext ?>" data-description="" class="ngg-fancybox" rel="<?php echo $displayed_gallery_id ?>">
+				<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->alttext ?>" data-src="<?php echo $image->imageURL ?>" data-thumbnail="<?php echo $image->thumbnailURL ?>" data-image-id="<?php echo $image->id ?>" data-title="<?php echo $image->alttext ?>" data-description="" rel="<?php echo $displayed_gallery_id ?>">
 					<img src="<?php echo $image->thumbnailURL ?>" alt="<?php echo $image->alttext ?>" title="<?php echo $image->alttext ?>" />
 				</a>
 			</li>
 		<?php endforeach; ?>
-	</ul></div>
-	<a id="<?php echo $gallery->anchor ?>-prev" class="jcarousel-control-prev">&lsaquo;</a>
-	<a id="<?php echo $gallery->anchor ?>-next" class="jcarousel-control-next">&rsaquo;</a>
+		</ul>
+		<a id="<?php echo $gallery->anchor ?>-prev" class="jcarousel-control-prev">&lsaquo;</a>
+		<a id="<?php echo $gallery->anchor ?>-next" class="jcarousel-control-next">&rsaquo;</a>
+	</div>
 	<p id="<?php echo $gallery->anchor ?>-page" class="jcarousel-pagination"></p>
 </div>
 
@@ -36,9 +38,13 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 
 		jcarousel
 		    .on('jcarousel:reload jcarousel:create', function () {
-			<?php /// Caculate optimum width ?>
-			var width = jcarousel.innerWidth();
-			var targetWidth = 120;
+			<?php
+				/** Caculate optimum width
+				 *  @todo Change to maximum width based on NGG thumbmnail size
+				 */
+			?>
+			var width = jcarousel.innerWidth() - 20;
+			var targetWidth = 100;
 
 			var calc = ~~(width / targetWidth);
 			width = width / calc;
@@ -70,14 +76,36 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				.jcarouselAutoscroll('stop');
 		})
 		.mouseleave(function() {
-			jcarousel
-				.jcarousel({
-					animation: {
-						duration: 2000,
-						easing: 'linear'
-					}
-				})
-				.jcarouselAutoscroll('start');
+			if (!jcarousel.prop('data-pause')) {
+				jcarousel
+					.jcarousel({
+						animation: {
+							duration: 2000,
+							easing: 'linear'
+						}
+					})
+					.jcarouselAutoscroll('start');
+			}
+		})
+		
+		$('#<?php echo $gallery->anchor ?> a').fancybox({
+			titlePosition: 'inside',
+			onStart: function() {
+				jcarousel.prop('data-pause', '1');
+			},
+			// Needed for twenty eleven
+			onComplete: function() {
+				jcarousel.removeProp('data-pause');
+				jcarousel
+					.jcarousel({
+						animation: {
+							duration: 2000,
+							easing: 'linear'
+						}
+					})
+					.jcarouselAutoscroll('start');
+				$('#fancybox-wrap').css('z-index', 10000);
+			}
 		});
 
 
